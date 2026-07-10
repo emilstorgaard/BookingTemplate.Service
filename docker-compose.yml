@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  booking-template-api:
+    container_name: booking-template-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - '5001:8080'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production

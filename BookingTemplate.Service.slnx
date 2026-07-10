@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
+    <File Path=".gitignore" />
+    <File Path="docker-compose.yml" />
+    <File Path="README.md" />
+    <File Path="src/BookingTemplate.Service.Api/Dockerfile" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/BookingTemplate.Service.Api/BookingTemplate.Service.Api.csproj" />
+  </Folder>
+</Solution>
