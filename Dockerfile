@@ -11,10 +11,10 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # 1. Copy .csproj file/s
-COPY ["src/BookingTemplate.Service.Api.csproj", "src/BookingTemplate.Service.Api"]
+COPY ["src/BookingTemplate.Service.Api/BookingTemplate.Service.Api.csproj", "src/BookingTemplate.Service.Api"]
 
 # 2. Restore
-RUN dotnet restore "./BookingTemplate.Service.Api.csproj"
+RUN dotnet restore "src/BookingTemplate.Service.Api/BookingTemplate.Service.Api.csproj"
 
 # 3. Copy the rest of the code
 COPY . .
