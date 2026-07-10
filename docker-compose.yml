@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  booking-template-api:
-    container_name: booking-template-api
+  booking-template-service-api:
+    container_name: booking-template-service-api
     build:
       context: .
       dockerfile: ./Dockerfile
