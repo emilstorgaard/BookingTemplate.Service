@@ -25,9 +25,19 @@ public class UsersController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
+    [HttpGet("authorized")]
+    public async Task<IActionResult> Get()
+    {
+        int userId = UserHelper.GetUserId(User);
+
+        var result = await _userService.GetUser(userId);
+        return Ok(result);
+    }
+
     [Authorize(Roles = "Admin")]
     [HttpGet("authorized/admin")]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAdmin()
     {
         int userId = UserHelper.GetUserId(User);
 
