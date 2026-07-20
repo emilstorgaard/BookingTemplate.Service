@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTemplate.Service.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260710085536_InitialCreate")]
+    [Migration("20260719150311_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,6 +52,52 @@ namespace BookingTemplate.Service.Api.Migrations
                             Id = 2,
                             Name = "User"
                         });
+                });
+
+            modelBuilder.Entity("BookingTemplate.Service.Api.Entities.TimeSlot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("BookedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("BookedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedByAdminId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsBooked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime>("StartTimeUtc")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookedByUserId");
+
+                    b.HasIndex("CreatedByAdminId");
+
+                    b.ToTable("TimeSlots");
                 });
 
             modelBuilder.Entity("BookingTemplate.Service.Api.Entities.User", b =>
@@ -101,6 +147,24 @@ namespace BookingTemplate.Service.Api.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("RoleUser");
+                });
+
+            modelBuilder.Entity("BookingTemplate.Service.Api.Entities.TimeSlot", b =>
+                {
+                    b.HasOne("BookingTemplate.Service.Api.Entities.User", "BookedByUser")
+                        .WithMany()
+                        .HasForeignKey("BookedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("BookingTemplate.Service.Api.Entities.User", "CreatedByAdmin")
+                        .WithMany()
+                        .HasForeignKey("CreatedByAdminId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BookedByUser");
+
+                    b.Navigation("CreatedByAdmin");
                 });
 
             modelBuilder.Entity("RoleUser", b =>

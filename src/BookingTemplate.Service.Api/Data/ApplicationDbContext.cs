@@ -9,6 +9,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<TimeSlot> TimeSlots { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,5 +33,17 @@ public class ApplicationDbContext : DbContext
                     new Role { Id = 1, Name = "Admin" },
                     new Role { Id = 2, Name = "User" }
         );
+
+        modelBuilder.Entity<TimeSlot>()
+            .HasOne(t => t.BookedByUser)
+            .WithMany()
+            .HasForeignKey(t => t.BookedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        modelBuilder.Entity<TimeSlot>()
+            .HasOne(t => t.CreatedByAdmin)
+            .WithMany()
+            .HasForeignKey(t => t.CreatedByAdminId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

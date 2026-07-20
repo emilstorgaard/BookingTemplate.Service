@@ -69,10 +69,14 @@ public class Program
 
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IAdminTimeSlotRepository, AdminTimeSlotRepository>();
+        builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IAdminTimeSlotService, AdminTimeSlotService>();
+        builder.Services.AddScoped<IBookingService, BookingService>();
     }
 
     public static void ConfigureAuthentication(WebApplicationBuilder builder)

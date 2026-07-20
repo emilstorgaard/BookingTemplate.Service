@@ -66,6 +66,39 @@ namespace BookingTemplate.Service.Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TimeSlots",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsBooked = table.Column<bool>(type: "bit", nullable: false),
+                    BookedByUserId = table.Column<int>(type: "int", nullable: true),
+                    BookedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedByAdminId = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeSlots", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TimeSlots_Users_BookedByUserId",
+                        column: x => x.BookedByUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_TimeSlots_Users_CreatedByAdminId",
+                        column: x => x.CreatedByAdminId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
@@ -81,6 +114,16 @@ namespace BookingTemplate.Service.Api.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TimeSlots_BookedByUserId",
+                table: "TimeSlots",
+                column: "BookedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TimeSlots_CreatedByAdminId",
+                table: "TimeSlots",
+                column: "CreatedByAdminId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
@@ -92,6 +135,9 @@ namespace BookingTemplate.Service.Api.Migrations
         {
             migrationBuilder.DropTable(
                 name: "RoleUser");
+
+            migrationBuilder.DropTable(
+                name: "TimeSlots");
 
             migrationBuilder.DropTable(
                 name: "Roles");
